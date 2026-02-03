@@ -79,7 +79,19 @@ contract Qollabb is IERC721Receiver {
         c.status = CollabStatus.FUNDED;
     }
 
+    function executeMint(uint256 _collabId) external {
+        CollabRequest storage c = collabs[_collabId];
+
+        require(msg.sender == c.creator, "Only creator can execute mint");
+        require(c.status == CollabStatus.FUNDED, "Not funded yet");
+
+        (bool success, memory byte data) = c.nftContract.call{value: c.fundsLocked}(abi.encodeWithSignature("mint()"))
+        require(success, "mint failed!");
+
+        c.status = Co
+        llabStatus.MINTED;
+}
     
-    
+
 
 }
