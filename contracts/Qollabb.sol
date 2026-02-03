@@ -68,7 +68,16 @@ contract Qollabb is IERC721Receiver {
         return collabId;
     }
 
-    
+    function fundCollab(uint256 _collabId) external payable {
+        CollabRequest storage c = collabs[_collabId];
+
+        require(c.status == CollabStatus.OPEN, "Collab not open");
+        require(msg.value == c.mintPrice, "Incorrect funding amount");
+
+        c.partner = msg.sender;
+        c.fundsLocked = msg.value;
+        c.status = CollabStatus.FUNDED;
+    }
 
     
     
