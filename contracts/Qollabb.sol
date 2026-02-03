@@ -38,4 +38,39 @@ contract Qollabb is IERC721Receiver {
     }
     mapping(uint256 => CollabRequest) public collabs;
     uint256 public collabCount;
+
+    function createNFTCollab(
+        address _nftContract,
+        uint256 _mintPrice,
+        uint256 _creatorShare,
+        uint256 _partnerShare,
+    ) external returns (uint256) {
+        require(
+            _creatorShare + _partnerShare == 100,
+            "Combines shares must equal 100%"
+        );
+
+        uint256 collabId = collabCount;
+
+        collabs[collabId] = CollabRequest({
+            creator: msg.sender,
+            partner: address(0),
+            creatorShare: _creatorShare,
+            partnerShare: _partnerShare,
+            nftId: 0,
+            nftContract: _nftContract,
+            mintPrice: _mintPrice,
+            fundsLocked: 0,
+            status: CollabStatus.OPEN
+        });
+
+        collabCount++;
+        return collabId;
+    }
+
+    
+
+    
+    
+
 }
