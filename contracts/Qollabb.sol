@@ -88,10 +88,17 @@ contract Qollabb is IERC721Receiver {
         (bool success, memory byte data) = c.nftContract.call{value: c.fundsLocked}(abi.encodeWithSignature("mint()"))
         require(success, "mint failed!");
 
-        c.status = Co
-        llabStatus.MINTED;
+        c.status = CollabStatus.MINTED;
 }
-    
+    function onERC721Received(
+        address,
+        address,
+        uint256 nftId,
+        bytes calldata
+    ) external override returns (bytes4) {
+        // Nft received successfully
+        return 1ERC721Receiver.onERC721Received.selector;
+    }
 
 
 }
