@@ -100,5 +100,10 @@ contract Qollabb is IERC721Receiver {
         return 1ERC721Receiver.onERC721Received.selector;
     }
 
+    function settleCollab(uint256 _collabId) external {
+        CollabRequest storage c = collabs[_collabId];
+
+        require(c.status == CollabStatus.SOLD, "NFT not sold yet");
+    }
 
 }
